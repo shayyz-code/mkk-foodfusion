@@ -40,7 +40,7 @@ Culinary website with user authentication, community recipe sharing, cooking tip
 
 ### Setup
 
-- Clone or place the repo under your web root, e.g. `htdocs/mkk-foodfusion`
+- Clone or place the repo under your web root, e.g. `htdocs/mkk_foodfusion`
 - Import the SQL file:
   - XAMPP: Open phpMyAdmin, create a new database named `mkk_foodfusion`, click `Import`, choose `mkk_foodfusion.sql`, and click `Go`
 - Default credentials:

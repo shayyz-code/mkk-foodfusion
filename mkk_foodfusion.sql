@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Oct 15, 2025 at 02:23 PM
+-- Generation Time: Dec 13, 2025 at 05:08 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -129,6 +129,13 @@ CREATE TABLE `recipe_ratings` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `recipe_ratings`
+--
+
+INSERT INTO `recipe_ratings` (`id`, `recipe_id`, `user_id`, `user_name`, `rating`, `comment`, `created_at`) VALUES
+(1, 1, NULL, 's', 5, 'great', '2025-10-15 13:08:28');
+
 -- --------------------------------------------------------
 
 --
@@ -149,7 +156,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `created_at`) VALUES
-(1, 'mkk', 'mkk', 'mkk@gmail.com', '$2y$10$kR3lug4CYz0M/YaHK5ADo./MbdwsodkusXIoWTaaJJVB6aFbFB7h2', '2025-10-15 08:39:56');
+(1, 'Min Khant', 'Kyaw', 'mkk@gmail.com', '$2y$10$kR3lug4CYz0M/YaHK5ADo./MbdwsodkusXIoWTaaJJVB6aFbFB7h2', '2025-12-12 08:39:56');
 
 --
 -- Indexes for dumped tables
@@ -228,7 +235,7 @@ ALTER TABLE `recipes`
 -- AUTO_INCREMENT for table `recipe_ratings`
 --
 ALTER TABLE `recipe_ratings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
