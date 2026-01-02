@@ -93,7 +93,7 @@ if (empty($errors)) {
 // ======================
 if (empty($errors)) {
     $username = explode('@', $email)[0];
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
     $query = "INSERT INTO users (first_name, last_name, email, password)
               VALUES (?, ?, ?, ?)";
