@@ -7,7 +7,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Include database connection
-require_once '../config/database.php';
+require_once '../config/db.php';
 
 // Start session if not already started
 if (session_status() === PHP_SESSION_NONE) {

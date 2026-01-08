@@ -1,6 +1,6 @@
 <?php
 // Include database connection
-require_once '../config/database.php';
+require_once '../config/db.php';
 
 // Start session
 if (session_status() == PHP_SESSION_NONE) {

@@ -207,7 +207,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                             if (mysqli_num_rows($comments_result) > 0) {
                                 while ($comment = mysqli_fetch_assoc($comments_result)) {
                             ?>
-                                <div class="comment-item p-3 mb-3 bg-light rounded">
+                                <div class="comment-item p-3 mb-3 bg-primary rounded">
                                     <div class="d-flex justify-content-between">
                                         <h6><?php echo htmlspecialchars($comment['user_name']); ?></h6>
                                         <div class="rating-display">
@@ -223,7 +223,7 @@ if (isset($_GET['id']) && !empty($_GET['id'])) {
                                         </div>
                                     </div>
                                     <p class="mb-1"><?php echo htmlspecialchars($comment['comment']); ?></p>
-                                    <small class="text-muted">Posted on <?php echo date('F j, Y', strtotime($comment['created_at'])); ?></small>
+                                    <small class="text">Posted on <?php echo date('F j, Y', strtotime($comment['created_at'])); ?></small>
                                 </div>
                             <?php
                                 }

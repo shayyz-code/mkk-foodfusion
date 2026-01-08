@@ -40,10 +40,10 @@ $(document).ready(function () {
 
     $.ajax({
       type: "POST",
-      url: "/foodfusion/auth/login.php",
+      url: "/mkk-foodfusion/auth/login.php",
       data: formData,
       success: function (response) {
-        window.location.href = "/foodfusion/index.php"
+        window.location.href = "/mkk-foodfusion/index.php"
       },
     })
   })
@@ -64,7 +64,7 @@ $(document).ready(function () {
 
     $.ajax({
       type: "POST",
-      url: "/foodfusion/auth/register.php",
+      url: "/mkk-foodfusion/auth/register.php",
       data: formData,
       success: function (response) {
         if (response.success) {

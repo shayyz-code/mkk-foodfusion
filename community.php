@@ -221,7 +221,7 @@ include 'includes/header.php';
                             <div class="form-group">
                                 <label for="recipe-image">Recipe Image</label>
                                 <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="recipe-image" name="recipe_image" accept="image/*">
+                                    <input type="file" class="custom-file-input" id="recipe-image" name="recipe_image" accept="image/*,application/pdf">
                                     <label class="custom-file-label" for="recipe-image">Choose file</label>
                                 </div>
                                 <div id="image-preview-container" class="mt-2 d-none">
@@ -243,7 +243,16 @@ include 'includes/header.php';
                         <?php while ($recipe = mysqli_fetch_assoc($result)): ?>
                             <div class="col-md-6 mb-4">
                                 <div class="card h-100 shadow-sm recipe-card">
-                                    <img src="<?php echo $recipe['image_path']; ?>" class="card-img-top recipe-img" alt="<?php echo $recipe['title']; ?>">
+                                    <?php if (!empty($recipe['image_path'])): ?>
+                                        <?php $ext = strtolower(pathinfo($recipe['image_path'], PATHINFO_EXTENSION)); ?>
+                                        <?php if (in_array($ext, ['jpg','jpeg','png','gif','webp'])): ?>
+                                            <img src="<?php echo $recipe['image_path']; ?>" class="card-img-top recipe-img" alt="<?php echo $recipe['title']; ?>">
+                                        <?php else: ?>
+                                            <div class="p-3">
+                                                <a href="<?php echo $recipe['image_path']; ?>" class="btn btn-outline-secondary btn-sm" target="_blank">View File</a>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
                                     <div class="card-body">
                                         <h5 class="card-title"><?php echo $recipe['title']; ?></h5>
                                         <p class="card-text text-muted">By <?php echo $recipe['first_name'] . ' ' . $recipe['last_name']; ?></p>

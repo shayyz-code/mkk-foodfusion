@@ -1,4 +1,8 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 // Include database connection
 require_once 'config/db.php';
 
@@ -10,9 +14,7 @@ if (session_status() == PHP_SESSION_NONE) {
 // Check if form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
-    // For demo purposes, we'll set a default user_id
-    // In a real application, this would come from the session
-    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : 1;
+    $user_id = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;
     
     // Get form data
     $title = mysqli_real_escape_string($conn, $_POST['title']);
@@ -32,41 +34,75 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $ingredients_str = mysqli_real_escape_string($conn, implode("\n", array_filter($ingredients)));
     $instructions_str = mysqli_real_escape_string($conn, implode("\n", array_filter($instructions)));
     
-    // Handle image upload
-    $image_path = 'images/recipes/default-recipe.jpg'; // Default image
+    $upload_dir_fs = __DIR__ . '/assets/uploads/recipes/';
+    $upload_dir_web = 'assets/uploads/recipes/';
+    $image_path = null;
     
     if (isset($_FILES['recipe_image']) && $_FILES['recipe_image']['error'] == 0) {
-        $upload_dir = 'images/recipes/';
-        
-        // Create directory if it doesn't exist
-        if (!file_exists($upload_dir)) {
-            mkdir($upload_dir, 0777, true);
+        $allowed_image_ext = ['jpg','jpeg','png','gif','webp'];
+        $allowed_file_ext = array_merge($allowed_image_ext, ['pdf']);
+        $file_extension = strtolower(pathinfo($_FILES['recipe_image']['name'], PATHINFO_EXTENSION));
+        if (!in_array($file_extension, $allowed_file_ext)) {
+            $_SESSION['message'] = "Unsupported file type. Please upload an image or PDF.";
+            $_SESSION['message_type'] = "danger";
+            header("Location: community.php");
+            exit();
         }
-        
-        // Generate unique filename
-        $file_extension = pathinfo($_FILES['recipe_image']['name'], PATHINFO_EXTENSION);
+        if (!is_dir($upload_dir_fs)) {
+            @mkdir($upload_dir_fs, 0755, true);
+        }
         $filename = uniqid('recipe_') . '.' . $file_extension;
-        $target_file = $upload_dir . $filename;
-        
-        // Check if image file is a actual image
-        $check = getimagesize($_FILES['recipe_image']['tmp_name']);
-        if ($check !== false) {
-            // Try to upload file
-            if (move_uploaded_file($_FILES['recipe_image']['tmp_name'], $target_file)) {
-                $image_path = $target_file;
+        $target_file_fs = $upload_dir_fs . $filename;
+        $target_file_web = $upload_dir_web . $filename;
+        if (in_array($file_extension, $allowed_image_ext)) {
+            $check = @getimagesize($_FILES['recipe_image']['tmp_name']);
+            if ($check === false) {
+                $_SESSION['message'] = "Invalid image file.";
+                $_SESSION['message_type'] = "danger";
+                header("Location: community.php");
+                exit();
             }
         }
+        if (!is_uploaded_file($_FILES['recipe_image']['tmp_name'])) {
+            $_SESSION['message'] = "Upload failed. Please try again.";
+            $_SESSION['message_type'] = "danger";
+            header("Location: community.php");
+            exit();
+        }
+        if (!@move_uploaded_file($_FILES['recipe_image']['tmp_name'], $target_file_fs)) {
+            $_SESSION['message'] = "Unable to save the uploaded file.";
+            $_SESSION['message_type'] = "danger";
+            header("Location: community.php");
+            exit();
+        }
+        $image_path = $target_file_web;
+    } else {
+        $_SESSION['message'] = "Please upload a photo or PDF for your recipe.";
+        $_SESSION['message_type'] = "danger";
+        header("Location: community.php");
+        exit();
     }
     
-    // Insert recipe into database
-    $query = "INSERT INTO recipes (user_id, title, description, ingredients, instructions, 
-              cuisine_type, dietary_pref, difficulty, prep_time, cook_time, image_path, is_community) 
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    
-    $stmt = mysqli_prepare($conn, $query);
-    mysqli_stmt_bind_param($stmt, "isssssssiiis", 
-        $user_id, $title, $description, $ingredients_str, $instructions_str, 
-        $cuisine_type, $dietary_pref, $difficulty, $prep_time, $cook_time, $image_path, $is_community);
+    // Insert recipe into database, handle NULL user_id explicitly to avoid FK issues
+    if ($user_id === null) {
+        $query = "INSERT INTO recipes (user_id, title, description, ingredients, instructions, 
+                  cuisine_type, dietary_pref, difficulty, prep_time, cook_time, image_path, is_community) 
+                  VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($stmt, "sssssssiisi",
+            $title, $description, $ingredients_str, $instructions_str,
+            $cuisine_type, $dietary_pref, $difficulty, $prep_time, $cook_time, $image_path, $is_community
+        );
+    } else {
+        $query = "INSERT INTO recipes (user_id, title, description, ingredients, instructions, 
+                  cuisine_type, dietary_pref, difficulty, prep_time, cook_time, image_path, is_community) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = mysqli_prepare($conn, $query);
+        mysqli_stmt_bind_param($stmt, "isssssssiisi",
+            $user_id, $title, $description, $ingredients_str, $instructions_str,
+            $cuisine_type, $dietary_pref, $difficulty, $prep_time, $cook_time, $image_path, $is_community
+        );
+    }
     
     if (mysqli_stmt_execute($stmt)) {
         // Success
