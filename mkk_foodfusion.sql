@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 13, 2025 at 05:08 PM
+-- Generation Time: Jan 09, 2026 at 06:27 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `foodfusion`
+-- Database: `mkk_foodfusion`
 --
 
 -- --------------------------------------------------------
@@ -33,6 +33,13 @@ CREATE TABLE `cooking_tips` (
   `tip_content` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cooking_tips`
+--
+
+INSERT INTO `cooking_tips` (`id`, `user_id`, `tip_content`, `created_at`) VALUES
+(1, 3, 'hello', '2026-01-08 10:24:11');
 
 -- --------------------------------------------------------
 
@@ -111,7 +118,8 @@ CREATE TABLE `recipes` (
 INSERT INTO `recipes` (`id`, `user_id`, `title`, `is_community`, `description`, `ingredients`, `instructions`, `cuisine_type`, `dietary_pref`, `difficulty`, `prep_time`, `cook_time`, `image_path`, `created_at`) VALUES
 (1, NULL, 'Classic Margherita Pizza', 1, 'A simple yet delicious Italian classic with fresh basil and mozzarella.', 'Pizza dough, San Marzano tomatoes, Fresh mozzarella, Fresh basil, Olive oil, Salt', '1. Preheat oven to 500°F. 2. Roll out dough. 3. Add toppings. 4. Bake for 10-12 minutes.', 'Italian', 'Vegetarian', 'Easy', 20, 12, 'assets/images/recipes/margherita.jpg', '2025-10-15 07:45:49'),
 (2, NULL, 'Vegetable Curry', 1, 'A flavorful and spicy vegetable curry that\'s perfect for weeknight dinners.', 'Mixed vegetables, Coconut milk, Curry paste, Garlic, Ginger, Onion, Vegetable broth', '1. Sauté onions, garlic, and ginger. 2. Add curry paste. 3. Add vegetables and liquids. 4. Simmer until vegetables are tender.', 'Indian', 'Vegan', 'Medium', 15, 30, 'assets/images/recipes/veg_curry.jpg', '2025-10-15 07:45:49'),
-(3, NULL, 'Chocolate Lava Cake', 1, 'Decadent chocolate cake with a molten center, perfect for dessert lovers.', 'Dark chocolate, Butter, Eggs, Sugar, Flour, Vanilla extract', '1. Melt chocolate and butter. 2. Mix in other ingredients. 3. Pour into ramekins. 4. Bake at 425°F for 12-14 minutes.', 'French', 'Vegetarian', 'Medium', 15, 14, 'assets/images/recipes/lava_cake.jpg', '2025-10-15 07:45:49');
+(3, NULL, 'Chocolate Lava Cake', 1, 'Decadent chocolate cake with a molten center, perfect for dessert lovers.', 'Dark chocolate, Butter, Eggs, Sugar, Flour, Vanilla extract', '1. Melt chocolate and butter. 2. Mix in other ingredients. 3. Pour into ramekins. 4. Bake at 425°F for 12-14 minutes.', 'French', 'Vegetarian', 'Medium', 15, 14, 'assets/images/recipes/lava_cake.jpg', '2025-10-15 07:45:49'),
+(909, 3, 'Corn Ribs', 1, 'My Fav Recipe', 'Corn', 'Add corn ribs', 'Italian', 'Vegetarian', 'Medium', 10, 10, 'assets/uploads/recipes/recipe_695f871fc0994.webp', '2026-01-08 10:29:51');
 
 -- --------------------------------------------------------
 
@@ -156,7 +164,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `created_at`) VALUES
-(1, 'Min Khant', 'Kyaw', 'mkk@gmail.com', '$2y$10$kR3lug4CYz0M/YaHK5ADo./MbdwsodkusXIoWTaaJJVB6aFbFB7h2', '2025-12-12 08:39:56');
+(1, 'Min Khant', 'Kyaw', 'mkk@gmail.com', '$2y$10$kR3lug4CYz0M/YaHK5ADo./MbdwsodkusXIoWTaaJJVB6aFbFB7h2', '2025-12-12 08:39:56'),
+(3, 'test', 'test', 'test@test.com', '$2y$10$exYRLSCHp4L95SJdHfr5uOe5IiDaIFOzmEO.PSz/Ru25JSHJr50wG', '2026-01-08 10:17:26');
 
 --
 -- Indexes for dumped tables
@@ -211,7 +220,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `cooking_tips`
 --
 ALTER TABLE `cooking_tips`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -229,19 +238,19 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT for table `recipes`
 --
 ALTER TABLE `recipes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=902;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=910;
 
 --
 -- AUTO_INCREMENT for table `recipe_ratings`
 --
 ALTER TABLE `recipe_ratings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables

@@ -1,6 +1,5 @@
 <?php
 
-ini_set('display_errors', 1);
 // Include database connection
 require_once 'config/db.php';
 
