@@ -24,10 +24,28 @@ $news = mysqli_query($conn, $news_query);
         <div class="hero-content">
             <h1>Welcome to FoodFusion</h1>
             <p>Where culinary traditions meet modern innovation</p>
-            <button class="btn btn-primary join-btn">Join Us</button>
+            <button class="btn btn-primary join-btn" data-bs-toggle="modal" data-bs-target="#joinUsModal">Join Us</button>
         </div>
     </div>
 </section>
+
+<div class="modal fade" id="joinUsModal" tabindex="-1" aria-labelledby="joinUsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="joinUsModalLabel">Sign Up Now</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Join our FoodFusion community to share recipes, save favorites, and access exclusive resources.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Maybe Later</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal">Sign Up Now</button>
+            </div>
+        </div>
+    </div>
+    </div>
 
 <!-- Mission Section -->
 <section class="mission">

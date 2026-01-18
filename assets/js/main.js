@@ -27,23 +27,46 @@ $(document).ready(function () {
       switchModal("loginModal")
     })
 
-  // Show join modal when join button is clicked
-  $(".join-btn").on("click", function (e) {
-    e.preventDefault()
-    switchModal("registerModal", "loginModal")
-  })
-
-  // Handle login form submission
   $('form[action*="login.php"]').on("submit", function (e) {
     e.preventDefault()
-    var formData = $(this).serialize()
+    var form = $(this)
+    var formData = form.serialize()
 
     $.ajax({
       type: "POST",
-      url: "/mkk-foodfusion/auth/login.php",
+      url: form.attr("action"),
       data: formData,
+      dataType: "json",
       success: function (response) {
-        window.location.href = "/mkk-foodfusion/index.php"
+        if (response && response.success) {
+          window.location.href = "/mkk-foodfusion/index.php"
+        } else {
+          var errors = []
+          if (response && Array.isArray(response.errors)) {
+            errors = response.errors
+          } else if (response && response.message) {
+            errors = [response.message]
+          } else {
+            errors = ["Login failed. Please try again."]
+          }
+
+          var html = '<div class="alert alert-danger"><ul class="mb-0">'
+          errors.forEach(function (err) {
+            html += "<li>" + err + "</li>"
+          })
+          html += "</ul></div>"
+
+          var container = form.closest(".modal-body")
+          container.find(".alert").remove()
+          container.prepend(html)
+        }
+      },
+      error: function () {
+        var html =
+          '<div class="alert alert-danger">An error occurred while logging in. Please try again.</div>'
+        var container = form.closest(".modal-body")
+        container.find(".alert").remove()
+        container.prepend(html)
       },
     })
   })
