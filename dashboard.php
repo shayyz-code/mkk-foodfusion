@@ -50,8 +50,8 @@ while ($row = mysqli_fetch_assoc($result)) {
                     <p class="text-muted mb-4"><?php echo htmlspecialchars($email); ?></p>
                     
                     <div class="d-grid gap-2">
-                        <a href="recipes.php" class="btn btn-primary"><i class="fas fa-plus-circle me-2"></i>Submit New Recipe</a>
-                        <a href="community.php" class="btn btn-outline-primary"><i class="fas fa-users me-2"></i>Browse Community</a>
+                        <a href="community.php" class="btn btn-primary"><i class="fas fa-plus-circle me-2"></i>Submit New Recipe</a>
+                        <a href="recipes.php" class="btn btn-outline-primary"><i class="fas fa-users me-2"></i>Browse Recipes</a>
                         <a href="auth/logout.php" class="btn btn-outline-danger"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>
                     </div>
                 </div>
