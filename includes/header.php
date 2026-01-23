@@ -128,6 +128,7 @@ $isLoggedIn = isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true;
                                 <i class="fas fa-user-circle me-1"></i> <?php echo $_SESSION['first_name']; ?>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" href="dashboard.php">Dashboard</a></li>
                                 <li><a class="dropdown-item" href="auth/logout.php">Logout</a></li>
                             </ul>
                         </div>
